@@ -10,27 +10,32 @@ import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
 
-public class CountByConditionMethodGenerator extends AbstractJavaMapperMethodGenerator {
+public class BatchInsertMethodGenerator extends AbstractJavaMapperMethodGenerator {
 
-    public CountByConditionMethodGenerator(){
+    public BatchInsertMethodGenerator(){
         super();
     }
 
     @Override
     public void addInterfaceElements(Interface interfaze) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
-        importedTypes.add(FullyQualifiedJavaType.getNewListInstance());
 
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
-
-        FullyQualifiedJavaType intType = new FullyQualifiedJavaType(Integer.class.getName());
-        method.setReturnType(intType);
-        method.setName("count");
-        FullyQualifiedJavaType parameterType = introspectedTable.getRules().calculateAllFieldsClass();
-        importedTypes.add(parameterType);
-        method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
-
+        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+        method.setName("batchInsert");
+        
+        //list
+        FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType("List");
+        importedTypes.add(FullyQualifiedJavaType.getNewListInstance());
+        //record
+        FullyQualifiedJavaType listArgType = new FullyQualifiedJavaType(introspectedTable.getBaseRecordType());
+        importedTypes.add(listArgType);
+        //list<record>
+        parameterType.addTypeArgument(listArgType);
+        
+        method.addParameter(new Parameter(parameterType, "records")); //$NON-NLS-1$
+        
         context.getCommentGenerator().addGeneralMethodComment(method, introspectedTable);
 
         addMapperAnnotations(interfaze, method);
