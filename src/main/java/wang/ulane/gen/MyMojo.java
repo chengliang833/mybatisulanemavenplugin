@@ -22,10 +22,6 @@ import org.apache.maven.plugin.MojoExecutionException;
 import wang.ulane.gen.main.TableDef;
 import wang.ulane.gen.service.CodeGeneratorManager;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 /**
  * Goal which touches a timestamp file.
  *
