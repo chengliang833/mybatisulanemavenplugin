@@ -32,9 +32,6 @@ import wang.ulane.gen.service.CodeGeneratorManager;
 public class MyMojo extends AbstractMojo{
     public void execute() throws MojoExecutionException{
         getLog().info("start...");
-        CodeGeneratorManager cgm = new CodeGeneratorManager();
-        for(TableDef td:CodeGeneratorManager.TABLES){
-            cgm.genCodeMain(td.getTableName(), td.getModelName(), td.getMapperSufName(), td.getGenKey());
-        }
+        new CodeGeneratorManager().genCodeMain();
     }
 }
